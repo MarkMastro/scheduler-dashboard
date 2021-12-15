@@ -29,13 +29,33 @@ const data = [
 
 class Dashboard extends Component {
 
-  state = {loading : false}
+  constructor(){
+    super()
+    this.onPanelClick = this.onPanelClick.bind(this)
+
+  }
+
+  state = {
+    loading : false,
+    focus : null
+  }
+
+  onPanelClick(id){
+    console.log(id)
+    this.setState(previousState=> ({focus : id})); 
+  }
 
 
   render() {
-    const dashboardClasses = classnames("dashboard");
 
-    const panels = data.map( panelData=> <Panel key= {panelData.id} {...panelData} />)
+
+    const dashboardClasses = classnames("dashboard", {"dashboard--focused": this.state.focused});
+
+    const panels = data
+                        .filter( panel=> this.state.focus === null || this.state.focus === panel.id)
+                        .map( panel=> <Panel key= {panel.id} {...panel} onClick={this.onPanelClick}/>)
+
+                         
     
     if(this.state.loading){
 
@@ -43,7 +63,11 @@ class Dashboard extends Component {
      
     }
 
-    return <main className={dashboardClasses} />;
+    return  (
+    
+    <main className={dashboardClasses}>{panels}</main> 
+    
+    )
   }
 }
 
