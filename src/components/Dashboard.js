@@ -109,8 +109,6 @@ class Dashboard extends Component {
 
 
   render() {  
-    console.log(this.state)
-  
 
     const dashboardClasses = classnames("dashboard", {"dashboard--focused": this.state.focused});
 
